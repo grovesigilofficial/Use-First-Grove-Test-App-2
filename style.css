@@ -1,0 +1,58 @@
+/* ===== Body ===== */
+body {
+  background-color: #000;
+  color: #ff8800;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  padding: 2rem;
+  margin: 0;
+}
+
+/* ===== Headings ===== */
+h1, h2 {
+  color: #ff8800;
+  margin-bottom: 1rem;
+}
+
+/* ===== Inputs & Buttons ===== */
+input, button {
+  background-color: #111;
+  color: #ff8800;
+  border: 1px solid #ff8800;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #ff8800;
+  color: #000;
+  cursor: pointer;
+}
+
+/* ===== Layout Containers ===== */
+.auth, .dashboard {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ===== Dashboard Buttons ===== */
+.dashboard .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== Output Preformatted ===== */
+pre {
+  text-align: left;
+  background-color: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
