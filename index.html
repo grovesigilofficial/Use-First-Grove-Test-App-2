@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grove Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🌿 Grove Portal</h1>
+
+  <!-- AUTH SECTION -->
+  <div class="auth" id="auth">
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="signup">Sign Up</button>
+    <button id="signin">Sign In</button>
+  </div>
+
+  <!-- DASHBOARD SECTION -->
+  <div class="dashboard" id="dashboard" style="display:none;">
+    <h2>Portal Dashboard</h2>
+    <div class="buttons">
+      <button id="loadRituals">View Rituals</button>
+      <button id="loadPoints">View Points</button>
+      <button id="loadPolls">View Polls</button>
+      <button id="logout">Logout</button>
+    </div>
+    <pre id="output"></pre>
+  </div>
+
+  <script>
+    const supabaseUrl = 'https://uwgqlxuzdejahhgbugoz.supabase.co';
+    const supabaseAnonKey = 'sb_publishable_d3uKjbKSRgZqZbwfezhU5g_s3vUEitn';
+    const supabase = supabaseJs.createClient(supabaseUrl, supabaseAnonKey);
+
+    const authDiv = document.getElementById('auth');
+    const dashDiv = document.getElementById('dashboard');
+    const output = document.getElementById('output');
+
+    // Sign Up
+    document.getElementById('signup').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const { error } = await supabase.auth.signUp({ email, password });
+      output.textContent = error ? 'Error: ' + error.message : '✅ Signed up!';
+    });
+
+    // Sign In
+    document.getElementById('signin').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) output.textContent = 'Error: ' + error.message;
+      else {
+        output.textContent = '✅ Logged in as ' + email;
+        authDiv.style.display = 'none';
+        dashDiv.style.display = 'block';
+      }
+    });
+
+    // Logout
+    document.getElementById('logout').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      dashDiv.style.display = 'none';
+      authDiv.style.display = 'block';
+      output.textContent = 'Logged out.';
+    });
+
+    // Load Rituals
+    document.getElementById('loadRituals').addEventListener('click', async () => {
+      const { data, error } = await supabase.from('rituals').select('*');
+      output.textContent = error ? 'Error: ' + error.message : JSON.stringify(data, null, 2);
+    });
+
+    // Load Points
+    document.getElementById('loadPoints').addEventListener('click', async () => {
+      const { data, error } = await supabase.from('points').select('*');
+      output.textContent = error ? 'Error: ' + error.message : JSON.stringify(data, null, 2);
+    });
+
+    // Load Polls
+    document.getElementById('loadPolls').addEventListener('click', async () => {
+      const { data, error } = await supabase.from('polls').select('*');
+      output.textContent = error ? 'Error: ' + error.message : JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
